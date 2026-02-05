@@ -76,11 +76,12 @@ export function CustomNode() {
 }
 
 export function CustomEdge({id, sourceX, sourceY, targetX, targetY}) {
+  const modifiedTargetY = targetY + 5;
   const [edgePath] = getStraightPath({
     sourceX,
     sourceY,
     targetX,
-    targetY,
+    targetY: modifiedTargetY,
   });
 
   return (
@@ -180,7 +181,7 @@ export default function App() {
   const defaultViewport = {x: 0, y: 0, zoom: 1.5};
 
   return (
-    <div className={'react-flow'} style={{width: '100vw', height: '100vh'}}>
+    <div style={{width: '100vw', height: '100vh'}}>
       <div className="header flex items-center justify-between">
         <h1 className={'logo'}>Workflow Builder</h1>
         <button className={'button'} onClick={addNode} type="button">
@@ -192,23 +193,25 @@ export default function App() {
           Add Node
         </button>
       </div>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        defaultViewport={defaultViewport}
-        onInit={(reactFlowInstance) => {
-          reactFlowInstance.fitView({padding: 1.5});
-          reactFlowInstance.zoomTo(0.25); // 100%
-        }}
-      >
-        <Background/>
-        <Controls/>
-      </ReactFlow>
+      <div className="react-flow-container">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          defaultViewport={defaultViewport}
+          onInit={(reactFlowInstance) => {
+            reactFlowInstance.fitView({padding: 1.5});
+            reactFlowInstance.zoomTo(0.25); // 100%
+          }}
+        >
+          <Background/>
+          <Controls/>
+        </ReactFlow>
+      </div>
     </div>
   );
 }
